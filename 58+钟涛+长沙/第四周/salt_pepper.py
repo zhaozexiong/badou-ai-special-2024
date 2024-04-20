@@ -3,6 +3,7 @@
 import numpy as np
 import random
 import cv2
+import skimage.util as util
 
 def salt_pepper(img,p):
     #获取图片长和宽
@@ -29,5 +30,13 @@ salt_pepper_img = cv2.addWeighted(img, 0.5, desc, 0.5,0)
 
 #合并展示
 cv2.imshow("图片", np.hstack((img, salt_pepper_img)))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
+#api实现
+img = cv2.imread("lenna.png",0)
+gauss_img = util.random_noise(img, mode="gaussian")
+cv2.imshow("图片", gauss_img)
 cv2.waitKey(0)
 cv2.destroyAllWindows()
