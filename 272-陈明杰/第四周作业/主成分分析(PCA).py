@@ -134,7 +134,7 @@ class CPCA(object):
 
     def _Dim(self):
         # 求出降维之后的矩阵
-        Z = np.dot(self.X, self.eigenvectors)
+        Z = np.dot(self.centrX, self.eigenvectors)
         print('X shape:', np.shape(self.X))
         print('U shape:', np.shape(self.covariance_matrix))
         print('Z shape:', np.shape(Z))
