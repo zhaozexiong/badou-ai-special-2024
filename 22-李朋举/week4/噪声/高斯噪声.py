@@ -3,8 +3,6 @@ import numpy as np
 import cv2
 from numpy import shape
 import random
-
-
 def GaussianNoise(src, means, sigma, percetage):
     NoiseImg = src
     NoiseNum = int(percetage * src.shape[0] * src.shape[1])  # 多少个点需要处理 percetage * H * W  percetage信噪比SNR

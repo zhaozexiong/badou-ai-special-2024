@@ -24,7 +24,6 @@ def fun1(src, percetage):
 
     return NoiseImg
 
-
 img = cv2.imread('D:\cv_workspace\picture\lenna.png', 0)  # 读入灰度图片
 img1 = fun1(img, 0.2)  # 0.2 信噪比:信号和噪声所占比例 在0-1之间  因为椒盐噪声对比度比较明显所以0.2的效果也很明显
 # 在文件夹中写入命名为lenna_PepperandSalt.png的加噪后的图片
