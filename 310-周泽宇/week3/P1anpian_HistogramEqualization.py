@@ -3,21 +3,21 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 '''
-equalizeHist¡ªÖ±·½Í¼¾ùºâ»¯
-º¯ÊıÔ­ĞÍ£º equalizeHist(src, dst=None)
-src£ºÍ¼Ïñ¾ØÕó(µ¥Í¨µÀÍ¼Ïñ)
-dst£ºÄ¬ÈÏ¼´¿É
+equalizeHistâ€”ç›´æ–¹å›¾å‡è¡¡åŒ–
+å‡½æ•°åŸå‹ï¼š equalizeHist(src, dst=None)
+srcï¼šå›¾åƒçŸ©é˜µ(å•é€šé“å›¾åƒ)
+dstï¼šé»˜è®¤å³å¯
 '''
 
-# »ñÈ¡»Ò¶ÈÍ¼Ïñ
+# è·å–ç°åº¦å›¾åƒ
 img = cv2.imread("lenna.png", 1)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 #cv2.imshow("image_gray", gray)
 
-# »Ò¶ÈÍ¼ÏñÖ±·½Í¼¾ùºâ»¯
+# ç°åº¦å›¾åƒç›´æ–¹å›¾å‡è¡¡åŒ–
 dst = cv2.equalizeHist(gray)
 
-# Ö±·½Í¼
+# ç›´æ–¹å›¾
 hist = cv2.calcHist([dst],[0],None,[256],[0,256])
 
 plt.figure()
@@ -28,19 +28,19 @@ cv2.imshow("Histogram Equalization", np.hstack([gray, dst]))
 cv2.waitKey(0)
 
 
-
-# ²ÊÉ«Í¼ÏñÖ±·½Í¼¾ùºâ»¯
+'''
+# å½©è‰²å›¾åƒç›´æ–¹å›¾å‡è¡¡åŒ–
 img = cv2.imread("lenna.png", 1)
 cv2.imshow("src", img)
 
-# ²ÊÉ«Í¼Ïñ¾ùºâ»¯,ĞèÒª·Ö½âÍ¨µÀ ¶ÔÃ¿Ò»¸öÍ¨µÀ¾ùºâ»¯
+# å½©è‰²å›¾åƒå‡è¡¡åŒ–,éœ€è¦åˆ†è§£é€šé“ å¯¹æ¯ä¸€ä¸ªé€šé“å‡è¡¡åŒ–
 (b, g, r) = cv2.split(img)
 bH = cv2.equalizeHist(b)
 gH = cv2.equalizeHist(g)
 rH = cv2.equalizeHist(r)
-# ºÏ²¢Ã¿Ò»¸öÍ¨µÀ
+# åˆå¹¶æ¯ä¸€ä¸ªé€šé“
 result = cv2.merge((bH, gH, rH))
 cv2.imshow("dst_rgb", result)
 
 cv2.waitKey(0)
-
+'''
