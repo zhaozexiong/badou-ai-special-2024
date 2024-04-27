@@ -63,17 +63,17 @@ if __name__ == '__main__':
             flag = True
             # 获取当前像素的8邻域梯度幅值矩阵
             temp = img_tidu[i - 1:i + 2, j - 1:j + 2]
+            # 当前像素的倾斜角度大于等于1    这里的num_1和num_2为使用插值方式在梯度方向求得的值
+            if angle[i, j] >= 1:
+                num_1 = (temp[0, 2] - temp[0, 1]) / angle[i, j] + temp[0, 1]
+                num_2 = (temp[2, 0] - temp[2, 1]) / angle[i, j] + temp[2, 1]
+                if not (img_tidu[i, j] > num_1 and img_tidu[i, j] > num_2):
+                    flag = False
             # 当前像素的倾斜角度小于-1
-            if angle[i, j] <= -1:
+            elif angle[i, j] <= -1:
                 num_1 = (temp[0, 1] - temp[0, 0]) / angle[i, j] + temp[0, 1]
                 num_2 = (temp[2, 1] - temp[2, 2]) / angle[i, j] + temp[2, 1]
                 # 判断当前像素是否满足抑制条件
-                if not (img_tidu[i, j] > num_1 and img_tidu[i, j] > num_2):
-                    flag = False
-            # 当前像素的倾斜角度大于等于1
-            elif angle[i, j] >= 1:
-                num_1 = (temp[0, 2] - temp[0, 1]) / angle[i, j] + temp[0, 1]
-                num_2 = (temp[2, 0] - temp[2, 1]) / angle[i, j] + temp[2, 1]
                 if not (img_tidu[i, j] > num_1 and img_tidu[i, j] > num_2):
                     flag = False
             # 当前像素的倾斜角度大于0但小于1
