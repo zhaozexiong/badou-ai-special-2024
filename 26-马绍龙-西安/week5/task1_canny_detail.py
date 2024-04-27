@@ -96,7 +96,7 @@ if __name__ == '__main__':
     plt.imshow(img_yizhi.astype(np.uint8), cmap='gray')
     plt.axis('off')
 
-    # 4、双阈值检测，连接边缘。遍历所有一定是边的点,查看8邻域是否存在有可能是边的点，进栈
+    # 4、双阈值检测，连接边缘。遍历所有一定是边缘的点,查看8邻域是否存在有可能是边的点，进栈
     lower_boundary = img_tidu.mean() * 0.5
     high_boundary = lower_boundary * 3  # 这里我设置高阈值是低阈值的三倍
     zhan = []
