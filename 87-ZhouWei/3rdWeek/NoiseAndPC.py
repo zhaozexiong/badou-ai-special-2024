@@ -26,7 +26,7 @@ def pepersaltNoise(img, percentage):
     for i in range(noiseNum):
         randomX = random.randint(0, img.shape[0] - 1)
         randomY = random.randint(0, img.shape[1] - 1)
-        if noiseImg[randomX, randomY] < 126:
+        if random.random() <= 0.5:
             noiseImg[randomX, randomY] = 0
         else:
             noiseImg[randomX, randomY] = 255
