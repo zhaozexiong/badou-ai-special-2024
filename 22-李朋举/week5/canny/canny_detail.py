@@ -19,7 +19,6 @@ if __name__ == '__main__':
     dim = 5
     # 存储高斯核，这是数组(5X5全零矩阵)不是列表了
     Gaussian_filter = np.zeros([dim, dim])
-
     '''
     生成一个序列，这个序列在高斯核计算中用于表示离散的坐标值。 
         range(dim)：这部分代码表示生成一个从 0 到 dim-1 的整数序列，即 [0, 1, 2, ..., dim-1]。
@@ -203,12 +202,12 @@ if __name__ == '__main__':
             y 方向梯度图像 img_tidu_y，并计算了总梯度图像 img_tidu。
             '''
             # 这行代码计算了图像在x方向上的梯度。首先，从填充后的图像中提取出一个3x3的区域，然后将这个区域与Sobel算子的x方向核进行逐元素相乘，
-            # 然后对所有元素求和，得到了x方向上的梯度值。(x方向上的边缘检测)
+            # 然后对所有元素求和，得到了x方向上的梯度值。(x方向上的边缘检测- Gx)
             img_tidu_x[i, j] = np.sum(img_pad[i:i + 3, j:j + 3] * sobel_kernel_x)  # x方向
             # 这行代码计算了图像在y方向上的梯度。同样地，从填充后的图像中提取出一个3x3的区域，然后将这个区域与Sobel算子的y方向核进行逐元素相乘，
-            # 然后对所有元素求和，得到了y方向上的梯度值。(y方向上的边缘检测)
+            # 然后对所有元素求和，得到了y方向上的梯度值。(y方向上的边缘检测- Gy)
             img_tidu_y[i, j] = np.sum(img_pad[i:i + 3, j:j + 3] * sobel_kernel_y)  # y方向
-            # 利用x方向和y方向上的梯度值，按照勾股定理计算了每个像素点的总梯度值，即梯度的大小。(总的边缘检测)
+            # 利用x方向和y方向上的梯度值，按照勾股定理计算了每个像素点的总梯度值，即梯度的大小。 总的边缘检测 G = √ (Gx² + Gy²)
             img_tidu[i, j] = np.sqrt(img_tidu_x[i, j] ** 2 + img_tidu_y[i, j] ** 2)  # 总梯度图像
     print('x方向上的梯度值img_tidu_x为', img_tidu_x)
     '''
@@ -290,15 +289,34 @@ if __name__ == '__main__':
                 num_2 = (temp[2, 1] - temp[2, 2]) / angle[i, j] + temp[2, 1]
                 '''
                 c>temp1 & c>temp2  => 保留c 否则 抑制c
-                根据梯度方向 angle[i, j] 的不同取值，分别进行线性插值法的判断，以确定是否抑制当前像素。
                 具体的判断逻辑是根据梯度方向进行插值，然后比较当前像素的梯度值与插值后的值，若不满足条件则将 flag 置为 False。
                 '''
                 if not (img_tidu[i, j] > num_1 and img_tidu[i, j] > num_2):
                     flag = False   # => 抑制
             # tanθ >= 1：表示梯度角度θ对应的直线斜率大于等于1，通常对应着近似水平的边缘。
             elif angle[i, j] >= 1:
+                '''
+                单线性插值（相似三角形） ：(x,y)为待求点坐标，（x0,y0）（x1,y1）分别为两点坐标
+                      y - y0        x - x0                      x1 - x              x - x0 
+                     -------   =  --------       ==》     y  =  -------  *  y0  +  --------- y1
+                     y1 - y0       x1 - x0                      x1 - x0             x1 - x0 
+                     已知    （x0 , y0）     ->   (0, 1)
+                            （x1 , y1）     ->    (0,2)
+                     tan = 1 / x     = >   x = 1 / tan  即 x - x0 = 1 / tan         剩余  1 - 1/ tan     即  x1 - x = 1 - 1 / tan 
+                       y - y0        x - x0                     x1 - x              x - x0 
+                     -------   =  --------       ==》     y  =  -------  *  y0  +  --------- y1
+                      y1 - y0       x1 - x0                     x1 - x0              x1 - x0 
+                    因为 x1 - x0 = 1
+                    所以:                         ==》     y  =  (x1 - x) * y0  +  (x - x0 ) * y1
+                                                             =  (1 / tan) * temp[0,1]   +   1 / tan * temp[0,2]
+                                                             =  (temp[0,2]-temp[0,1]) / ang[i,j] + temp[0,1]
+                '''
                 num_1 = (temp[0, 2] - temp[0, 1]) / angle[i, j] + temp[0, 1]
                 num_2 = (temp[2, 0] - temp[2, 1]) / angle[i, j] + temp[2, 1]
+                '''
+                   c>temp1 & c>temp2  => 保留c 否则 抑制c
+                   具体的判断逻辑是根据梯度方向进行插值，然后比较当前像素的梯度值与插值后的值，若不满足条件则将 flag 置为 False。
+                '''
                 if not (img_tidu[i, j] > num_1 and img_tidu[i, j] > num_2):
                     flag = False
             # tanθ > 0：表示梯度角度θ对应的直线斜率大于0，梯度方向角度在第一和第三象限， 通常对应着从左下到右上方向的边缘。
@@ -317,7 +335,8 @@ if __name__ == '__main__':
                     flag = False
             if flag:
                 img_yizhi[i, j] = img_tidu[i, j]
-    '''
+    '''  
+        根据梯度方向 angle[i, j] 的不同取值，分别进行线性插值法的判断，以确定是否抑制当前像素。
         将计算得到的极大值抑制图像进行显示。
         (图中将冗余的线去掉，同一个边缘之前可能存在多条线，现在只剩一条最优线)
     '''
@@ -325,7 +344,6 @@ if __name__ == '__main__':
     plt.imshow(img_yizhi.astype(np.uint8), cmap='gray')
     plt.axis('off')
 
-    # 4、双阈值检测，连接边缘。遍历所有一定是边的点,查看8邻域是否存在有可能是边的点，进栈
     lower_boundary = img_tidu.mean() * 0.5
     high_boundary = lower_boundary * 3  # 这里我设置高阈值是低阈值的三倍
     print('lower_boundary 、 high_boundary分别为', lower_boundary, high_boundary)
@@ -335,17 +353,19 @@ if __name__ == '__main__':
         for j in range(1, img_yizhi.shape[1] - 1):
             ''' 
                  大于高阈值的为强边缘，小于低阈值的不是边缘，介于中间的是弱边缘：
-                 
+
                     不是边缘（抑制）        若边缘（是否连接强边缘）         强边缘（保留）
                  ------------------●--------------------------●---------------------------
-                          低阈值(lower_boundary)          高阈值(high_boundary)        
+                          低阈值(lower_boundary)          高阈值(high_boundary)    
+                            22.03517254942563             66.1055176482769
             '''
-            if img_yizhi[i, j] >= high_boundary:  # 取，一定是边的点
+            if img_yizhi[i, j] >= high_boundary:  # 强边缘->取，一定是边的点   >= 66.1055176482769
                 img_yizhi[i, j] = 255
                 zhan.append([i, j])
-            elif img_yizhi[i, j] <= lower_boundary:  # 舍
+            elif img_yizhi[i, j] <= lower_boundary:  # 不是边缘->舍(抑制)    <= 22.03517254942563
                 img_yizhi[i, j] = 0
 
+    # 4、双阈值检测，连接边缘。遍历所有一定是边的点,查看8邻域是否存在有可能是边的点，进栈
     '''
     8邻域8个点的判断
     基于边缘检测结果的边缘跟踪算法，通常用于从边缘检测结果中提取出连续的边缘。具体来说，它使用了一个栈（stack）数据结构来存储待处理的像素点，
@@ -367,7 +387,6 @@ if __name__ == '__main__':
             [  0. 255.   0.], 
             [  0.   0.   0.] ]
         '''
-
         '''
         【边缘标记和边缘跟踪】：根据边缘检测结果和阈值条件，将符合条件的像素点标记为边缘，并将其周围的像素点加入到栈中，以便进行下一轮的边缘跟踪操作。
         if (a[0, 0] < high_boundary) and (a[0, 0] > lower_boundary):
