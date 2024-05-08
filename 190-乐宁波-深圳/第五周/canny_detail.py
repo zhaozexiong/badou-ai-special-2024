@@ -13,8 +13,14 @@ if __name__ == '__main__':
     print('image', image)
 
     # 1.灰度化
-    image = image.mean(axis=-1) # 这行代码是什么意思
+    image = image.mean(axis=-1)  # 这行代码是什么意思
     print('image', image)
 
     # 2.高斯滤波
-
+    sigma = 0.5
+    dim = 5
+    Gaussian_filter = np.zeros([dim, dim])  # 高斯核
+    tmp = [i - dim // 2 for i in range(dim)]
+    n1 = 1 / (2 * math.pi * sigma ** 2)
+    n2 = -1 / (2 * sigma ** 2)
+    img_pad = np.pad(img, ((tmp, tmp), (tmp, tmp)), 'constant')
