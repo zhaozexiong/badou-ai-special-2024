@@ -17,7 +17,7 @@ if __name__ == '__main__':
     sigma = 0.5# 高斯平滑时的高斯核参数，标准差，可调
     dim = 5 # 高斯核大小
     Gaussian_filter = np.zeros((dim, dim)) # 存储高斯核，这是数组
-    tmp = (i - dim//2 for i in range(dim)) # 生成一个序列,为距离核中心（0，0）距离
+    tmp = [i - dim//2 for i in range(dim)] # 生成一个序列,为距离核中心（0，0）距离
     n1 = 1/(2*math.pi*sigma**2) # 计算高斯核
     n2 = -1/(2*sigma**2)
     for i in range(dim):
@@ -36,10 +36,10 @@ if __name__ == '__main__':
     plt.axis('off')
 #  3.计算图像梯度，得到可能边缘。
     sobel_kernel_x = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0 ,1]])
-    sobel_kernel_y = np.array([[1, 2, 1], [0, 0, 0], [-1, -2 ,-2]])
+    sobel_kernel_y = np.array([[1, 2, 1], [0, 0, 0], [-1, -2 ,-1]])
     img_tidu_x = np.zeros(img.shape)
-    img_tidu_y = np.zeros(dx, dy)
-    img_tidu = np.zeros(dx, dy)
+    img_tidu_y = np.zeros([dx, dy])
+    img_tidu = np.zeros([dx, dy])
     img_pad = np.pad(img, ((1,1),(1,1)), 'constant') #边缘填补
     for i in range(dx):
         j in range(dy):
