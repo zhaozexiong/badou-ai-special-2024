@@ -22,7 +22,7 @@ if __name__ == '__main__':
     n2 = -1/(2*sigma**2)
     for i in range(dim):
         for j in range(dim):
-        Gaussian_filter[i, j] = n1*math.exp(n2*(tmp[i]**2+tmp[j]**2))
+            Gaussian_filter[i, j] = n1*math.exp(n2*(tmp[i]**2+tmp[j]**2))
     Gaussian_filter = Gaussian_filter / Gaussian_filter.sum()
     dx, dy = img.shape
     img_new = np.zeros((dx, dy)) # 存储平滑之后的图像，zeros函数得到的是浮点型数据
@@ -85,7 +85,8 @@ if __name__ == '__main__':
                 
 
 
-#  5.双阈值检测，连接边缘。lower_boundary = img_tidu.mean() * 0.5
+#  5.双阈值检测，连接边缘。
+    lower_boundary = img_tidu.mean() * 0.5
     high_boundary = lower_boundary * 3  # 这里我设置高阈值是低阈值的三倍
     zhan = []
     for i in range(1, img_yizhi.shape[0]-1):  # 外圈不考虑了
@@ -134,4 +135,4 @@ if __name__ == '__main__':
     plt.figure(4)
     plt.imshow(img_yizhi.astype(np.uint8), cmap='gray')
     plt.axis('off')
-    pli.show()
+    plt.show()
