@@ -17,7 +17,7 @@ class PCA:
 
     def _cov(self):
         size = np.shape(self.center_matrix)[0]
-        self.cov_matrix = np.dot(self.center_matrix.T, self.center_matrix) / (size - 1)
+        self.cov_matrix = np.dot(self.center_matrix.T, self.center_matrix) / size
         print('样本矩阵X的协方差矩阵cov_matrix:\n', self.cov_matrix)
 
     def _feature(self):
@@ -33,7 +33,7 @@ class PCA:
         print('%d阶降维转换矩阵feature_matrix:\n' % self.dim, self.feature_matrix)
 
     def _dim_matrix(self):
-        self.dim_reduction_matrix = np.dot(self.sample_matrix, self.feature_matrix)
+        self.dim_reduction_matrix = np.dot(self.center_matrix, self.feature_matrix)
 
         print('样本矩阵X的降维矩阵dim_reduction_matrix:\n', self.dim_reduction_matrix)
 
