@@ -6,7 +6,7 @@ if __name__ == '__main__':
 
 # 1.取灰度图
 #    pic_path = 'lenna.png'
-    img = plt.imread(r'E:image\lenna.png')
+    img = plt.imread(r'E:\image\lenna.png')
     print("image", img)
     img = img * 255 
     img = img.mean(axis=-1)
@@ -82,7 +82,9 @@ if __name__ == '__main__':
                     flag = False
             if flag:
                 img_yizhi[i, j] = img_tidu[i, j]
-                
+    plt.figure(3)
+    plt.imshow(img_yizhi.astype(np.uint8), cmap='gray')
+    plt.axis('off')
 
 
 #  5.双阈值检测，连接边缘。
