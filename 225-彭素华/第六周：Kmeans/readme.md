@@ -16,6 +16,7 @@
 ## spin image: 是基于点云空间分布的最经典的特征描述方法。
 
 **Spin image的思想：** 是将一定区域的点云分布转换成二维的spin image，然后对场景和模型的spin images进行相似性度量。 
+
 ![image](https://github.com/pengsuhua/badou-ai-special-2024/assets/116246948/a1575a36-84dd-4d7e-bf91-30834baeb48c)
 
 
@@ -25,6 +26,7 @@
 
 **分类：** 其实是从特定的数据中挖掘模式，做出判断的过程。
            **分类学习的主要过程：** 
+           
            ![image](https://github.com/pengsuhua/badou-ai-special-2024/assets/116246948/fd00ee1e-df1e-4ce5-837c-afffbe2bab5e)
 
 **聚类：** 从广义上来说，聚类就是：将数据集中在某些方面相似的数据成员放在一起。一个聚类就是一些数据实例的集合，其中处于相同聚类中的数据元素彼此相似，但是处于不同聚类中的元素彼此不同。
