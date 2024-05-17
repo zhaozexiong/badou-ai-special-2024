@@ -66,7 +66,7 @@ print(y)
 '''
 
 # c参数表示散点颜色，可以根据某个结果变量（如result）来设置不同颜色。
-plt.scatter(x, y, c=result, marker='o')
+scatter = plt.scatter(x, y, c=result, marker='o')
 
 # 绘制标题
 plt.title("Kmeans Data")
@@ -76,7 +76,7 @@ plt.xlabel("assists_per_minute")
 plt.ylabel("points_per_minute")
 
 # 设置右上角图例
-plt.legend(["A", "B", "C"])
+plt.legend(handles=scatter.legend_elements()[0], labels=["A", "B", "C"])
 
 # 显示图形
 plt.show()
