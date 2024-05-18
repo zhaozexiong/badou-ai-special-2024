@@ -4,16 +4,14 @@ import random
 
 
 class KMeans:
-    def __init__(self, cluster=2, tolerance=0.0001, epochs=10):
+    def __init__(self, cluster=2, epochs=10):
         """"
         cluster: 分类数
-        tolerance: 精确度
         epochs：迭代次数
         _centers：中心点集合
         _centers_data: 中心点对应的数据分类
         """
         self._cluster = cluster
-        self._tolerance = tolerance
         self._epochs = epochs
         self._centers = {}
         self.centers_data = {}
