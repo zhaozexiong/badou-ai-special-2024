@@ -43,7 +43,8 @@ absY = cv2.convertScaleAbs(y)
 
 dst = cv2.addWeighted(absX, 0.5, absY, 0.5, 0)
 
-plt.imsave("Sobel Edge Detection.png", dst)
+plt.savefig("sobel.png")
+plt.imshow(cv2.cvtColor(dst, cv2.COLOR_BGR2RGB))
 
 
 cv2.imshow("absX", absX)
