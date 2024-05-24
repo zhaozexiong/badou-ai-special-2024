@@ -9,4 +9,10 @@
 
 
 ## 密度聚类DBSCAN：
+![image](https://github.com/pengsuhua/badou-ai-special-2024/assets/116246948/29f8f581-2415-4ef2-9a70-3c157fe83ffd)
+
+
+# SIFT(尺度不变特征变换):
+![image](https://github.com/pengsuhua/badou-ai-special-2024/assets/116246948/6fb4e506-1499-46da-bb9d-8ab3911a616e)
+![image](https://github.com/pengsuhua/badou-ai-special-2024/assets/116246948/74ef95cd-8962-40a3-af63-e61fb03b98b0)
 
