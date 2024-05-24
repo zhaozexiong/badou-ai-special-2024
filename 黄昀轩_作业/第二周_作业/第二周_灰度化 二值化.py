@@ -4,9 +4,8 @@
 彩色图像的灰度化、二值化
 """
 import cv2
-from skimage.color import rgb2gray
 import numpy as np
-import matplotlib.pyplot as plt
+from skimage.color import rgb2gray
 
 # 灰度化
 
