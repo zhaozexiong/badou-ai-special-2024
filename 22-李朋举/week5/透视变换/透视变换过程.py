@@ -4,11 +4,11 @@ import numpy as np
 def WarpPerspectiveMatrix(src, dst):
     # 检查shape相同 且至少有4组点
     assert src.shape[0] == dst.shape[0] and src.shape[0] >= 4
-    nums = src.shape[0]
+    nums = src.shape[0] # 4 原图有4个点的坐标
     ''' 
     A * warpMatrix = B  
     '''
-    A = np.zeros((2 * nums, 8))  # 8X8矩阵  A矩阵
+    A = np.zeros((2 * nums, 8))  # 8X8矩阵  A矩阵   
     B = np.zeros((2 * nums, 1))  # 8X1矩阵  透视变换矩阵
     for i in range(0, nums):
         # 从数组 src 中提取第 i 行的数据，然后将其赋值给变量 A_i。这是一种常见的操作，用于获取数组中特定行的数据。
@@ -56,9 +56,24 @@ if __name__ == '__main__':
     print('warpMatrix')
     src = [[10.0, 457.0], [395.0, 291.0], [624.0, 291.0], [1000.0,457.0]]
     src = np.array(src)  # 原图4X2
+    ‘’‘
+       src:
+            [[  10.  457.]
+             [ 395.  291.]
+             [ 624.  291.]
+             [1000.  457.]]
 
+    ’‘’
     dst = [[46.0, 920.0], [46.0, 100.0], [600.0, 100.0], [600.0, 920.0]]
     dst = np.array(src)  # 目标图4X2
+    '''
+    dst:
+         [[  10.  457.]
+          [ 395.  291.]
+          [ 624.  291.]
+          [1000.  457.]]
+
+    '''
     warpMatrix = WarpPerspectiveMatrix(src, dst)
     print(warpMatrix)
 
