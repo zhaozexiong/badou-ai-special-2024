@@ -47,7 +47,7 @@ def ransac(data, model, n, k, t, d, debug=False, return_all=False):
     bestfit = None  # 最佳匹配
     besterr = np.inf  # 最佳误差,设置默认值  特殊值-它表示无穷大。
     best_inlier_idxs = None  # 最佳内群的idxs
-    while iterations < k:  #  k最大迭代次数
+    while iterations < k:  # k最大迭代次数
         '''
         1.在数据中随机选择一些点设定为内群
         在每次迭代中，进行随机分区并选择数据点：
@@ -60,8 +60,10 @@ def ransac(data, model, n, k, t, d, debug=False, return_all=False):
         # 随机选取 50个内群点索引 [150 410 485 ...]  450个离群点索引 [272 190 104 ...]
         maybe_idxs, test_idxs = random_partition(n, data.shape[0])  # 可能的内群索引和测试点索引
         print('test_idxs = ', test_idxs)
-        maybe_inliers = data[maybe_idxs, :]  # 获取size(maybe_idxs)行数据(Xi,Yi)  50个内群点 [[ 1.35171458e+01  1.20891452e+02], [ 1.49500689e+01  1.22343406e+02], [ 5.42782452e+00  4.12638319e+01]...]
-        test_points = data[test_idxs]  # 若干行(Xi,Yi)数据点  450个离群点 (500,2) [[ 8.79899064e+00 -2.32684054e+01], [ 1.39586115e+01  1.22994147e+02], [ 1.26526117e+01 -3.44334034e+01]...]
+        maybe_inliers = data[maybe_idxs, :]
+        # 获取size(maybe_idxs)行数据(Xi,Yi)  50个内群点 [[ 1.35171458e+01  1.20891452e+02], [ 1.49500689e+01  1.22343406e+02], [ 5.42782452e+00  4.12638319e+01]...]
+        test_points = data[test_idxs]
+        # 若干行(Xi,Yi)数据点  450个离群点 (500,2) [[ 8.79899064e+00 -2.32684054e+01], [ 1.39586115e+01  1.22994147e+02], [ 1.26526117e+01 -3.44334034e+01]...]
         '''
         2.计算适合内群的模型   maybemodel -> [[7.27365696]]
         使用模型对象`model`对可能的内群数据`maybe_inliers`进行拟合，得到一个新的模型对象`maybemodel`。
@@ -145,6 +147,8 @@ def random_partition(n, n_data):
 
 
 ''' 最小二乘法'''
+
+
 class LinearLeastSquareModel:
     # 最小二乘求线性解,用于RANSAC的输入模型
     def __init__(self, input_columns, output_columns, debug=False):
@@ -156,6 +160,7 @@ class LinearLeastSquareModel:
     函数来执行线性最小二乘拟合。这个函数可以找到一个最佳的线性模型
     x->返回最小平方和向量(在线性方程中代表自变量x的变化率), resids->残差, rank->矩阵的秩, s->均方误差 残差的平方和的平均值。
     '''
+
     def fit(self, data):
         # np.vstack按垂直方向（行顺序）堆叠数组构成一个新的数组
         A = np.vstack([data[:, i] for i in self.input_columns]).T  # 第一列Xi-->行Xi    按垂直方向（行顺序）堆叠数组构成一个新的数组
@@ -172,6 +177,7 @@ class LinearLeastSquareModel:
     最后，代码使用`np.sum`函数计算每个数据点的误差平方和，并将结果存储在`err_per_point`数组中。该数组的维度与输入数据`data`的维度相同，其中每个元素表示对应数据点的误差平方和。
     通过返回`err_per_point`数组，可以进一步分析拟合结果，评估模型的精度和适用性。在实际应用中，误差平方和可以用于评估模型在不同数据点上的拟合效果，以及与其他模型进行比较。
     '''
+
     def get_error(self, data, model):
         A = np.vstack([data[:, i] for i in self.input_columns]).T  # 第一列Xi-->行Xi
         B = np.vstack([data[:, i] for i in self.output_columns]).T  # 第二列Yi-->行Yi
