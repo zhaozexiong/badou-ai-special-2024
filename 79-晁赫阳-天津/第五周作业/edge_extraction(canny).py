@@ -153,7 +153,7 @@ if __name__ == '__main__':
     ratio = 3
     kernel_size = 3
 
-    img = cv2.imread('E:\pycharm_code\cv\Original Data\\0216.jpg')
+    img = cv2.imread('/Original_Data/0216.jpg')
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)  # 转换彩色图像为灰度图
 
     # cv2.namedWindow('canny result')
