@@ -1,1 +1,2 @@
-first homework from badou college by lys
+## 第八周作业
+1.实现ransac  2.实现差值和均值哈希
